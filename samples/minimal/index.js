@@ -79,6 +79,11 @@ exports.handler = async function(event, context) {
   const requestBodyBuffer = event.body;
   const { id, method, params } = JSON.parse(requestBodyBuffer);
 
+  // Hard-coding a 504 response to simulate an error NYT has with one of their custom API destinations
+  if (method === 'supported_operations') {
+    return { statusCode: 504 }
+  }
+
   const result = server[method](params);
 
   const response = {
@@ -88,9 +93,9 @@ exports.handler = async function(event, context) {
   };
   
   // Cause a 1 minute wait to trigger a timeout
-  await new Promise((resolve) => {
-    setTimeout(resolve, 60000);
-  })
+//   await new Promise((resolve) => {
+//     setTimeout(resolve, 60000);
+//   })
 
   return {
     statusCode: 200,
