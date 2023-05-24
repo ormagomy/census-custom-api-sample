@@ -79,9 +79,9 @@ exports.handler = async function(event, context) {
   const requestBodyBuffer = event.body;
   const { id, method, params } = JSON.parse(requestBodyBuffer);
 
-  // Hard-coding a 504 response to simulate an error NYT has with one of their custom API destinations
+  // Hard-coding a 404 response to simulate an error NYT has with one of their custom API destinations
   if (method === 'supported_operations') {
-    return { statusCode: 504 }
+    return { statusCode: 404 }
   }
 
   const result = server[method](params);
